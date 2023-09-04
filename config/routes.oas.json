@@ -18,13 +18,14 @@
             "export": "urlRewriteHandler",
             "module": "$import(@zuplo/runtime)",
             "options": {
-              "rewritePattern": "${env.SUPABASE_PROJECT_URL}/rest/v1/blogs?orgId=eq.${request.user?.data?.orgId}"
+              "rewritePattern": "${env.SUPABASE_PROJECT_URL}/rest/v1/blogs"
             }
           },
           "policies": {
             "inbound": [
               "api-key-inbound",
               "rate-limit-inbound",
+              "metered-request",
               "set-headers-inbound"
             ]
           }
@@ -58,7 +59,8 @@
           "policies": {
             "inbound": [
               "api-key-inbound",
-              "rate-limit-inbound"
+              "rate-limit-inbound",
+              "metered-request"
             ]
           }
         },
