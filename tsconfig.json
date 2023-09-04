@@ -7,6 +7,7 @@
     "module": "commonjs",
     "target": "esnext",
     "preserveConstEnums": true,
+    "resolveJsonModule": true,
     "moduleResolution": "node",
     "useUnknownInCatchVariables": false,
     "forceConsistentCasingInFileNames": true,

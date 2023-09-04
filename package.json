@@ -9,5 +9,9 @@
   "dependencies": {
     "zuplo": "latest"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@supabase/supabase-js": "^2.33.1",
+    "ai": "^2.2.11",
+    "openai": "^4.1.0"
+  }
 }
