@@ -7,14 +7,14 @@ import {
 import { environment } from "@zuplo/runtime";
 import { ErrorResponse } from "../types";
 
-const STRIPE_API_KEY = environment.STRIPE_API_KEY;
+const STRIPE_SECRET_KEY = environment.STRIPE_SECRET_KEY;
 
 export const stripeRequest = async (path: string, options?: RequestInit) => {
   return fetch("https://api.stripe.com" + path, {
     ...options,
     headers: {
       ...options?.headers,
-      Authorization: `Bearer ${STRIPE_API_KEY}`,
+      Authorization: `Bearer ${STRIPE_SECRET_KEY}`,
     },
   }).then((res) => res.json());
 };
