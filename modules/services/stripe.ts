@@ -130,7 +130,7 @@ export const getActiveStripeSubscription = async ({
     "/v1/subscriptions?customer=" + stripeCustomerId + "&status=active&limit=1"
   );
 
-  if (customerSubscription.data.length === 0) {
+  if (customerSubscription.data?.length === 0) {
     logger.warn("customer has no subscription", {
       stripeCustomerId,
     });
