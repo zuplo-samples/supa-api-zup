@@ -1,5 +1,5 @@
 import { ZuploContext, ZuploRequest, Logger } from "@zuplo/runtime";
-import { OpenAIStream, StreamingTextResponse } from "ai";
+import { OpenAIStream } from "ai";
 import { openai } from "./services/openai";
 import { supabase } from "./services/supabase";
 import blogSchema from "../schemas/blog.json";
@@ -36,7 +36,12 @@ export default async function (request: ZuploRequest, context: ZuploContext) {
     },
   });
 
-  return new StreamingTextResponse(stream);
+  return new Response(stream, {
+    headers: {
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+    },
+  });
 }
 
 type FunctionResponse = {
@@ -57,9 +62,7 @@ const saveBlogtoDatabase = async (
       functionResponse.function_call.arguments
     );
 
-    const { error } = await supabase
-      .from("blogs")
-      .insert({ content, title });
+    const { error } = await supabase.from("blogs").insert({ content, title });
 
     if (error) {
       logger.error(error);
