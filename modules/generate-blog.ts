@@ -1,9 +1,9 @@
 import { ZuploContext, ZuploRequest, Logger } from "@zuplo/runtime";
-import { OpenAIStream } from "ai";
+import { OpenAIStream, StreamingTextResponse } from "ai";
 import { openai } from "./services/openai";
 import { supabase } from "./services/supabase";
-import blogSchema from "../schemas/blog.json";
 import { CompletionCreateParams } from "openai/resources/chat";
+import blogSchema from "../schemas/blog.json";
 
 const functions: CompletionCreateParams.Function[] = [
   {
@@ -14,9 +14,15 @@ const functions: CompletionCreateParams.Function[] = [
 ];
 
 export default async function (request: ZuploRequest, context: ZuploContext) {
+  // When using the `api-key-inbound` policy (or any auth policy)
+  // Zuplo automatically adds the user's metadata to the request object
+  // so we can use it to get the orgId
   const { orgId } = request.user?.data;
 
   if (!orgId) {
+    // This will block the further execution of the request
+    // and return a 401 response to the client and it will not hit
+    // any other policies or the handler
     return new Response("Unauthorized", { status: 401 });
   }
 
@@ -38,16 +44,11 @@ export default async function (request: ZuploRequest, context: ZuploContext) {
     // this is so we don't block the response from being sent to the client
     // while we save the blog to the database
     onCompletion: async (completion) => {
-      await saveBlogtoDatabase(completion, orgId, context.log);
+      await saveBlogToDatabase(completion, orgId, context.log);
     },
   });
 
-  return new Response(stream, {
-    headers: {
-      "Content-Type": "application/json",
-      "Transfer-Encoding": "chunked",
-    },
-  });
+  return new StreamingTextResponse(stream);
 }
 
 type FunctionResponse = {
@@ -57,7 +58,7 @@ type FunctionResponse = {
   };
 };
 
-const saveBlogtoDatabase = async (
+const saveBlogToDatabase = async (
   blog: string,
   orgId: string,
   logger: Logger
