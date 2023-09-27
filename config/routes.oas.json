@@ -25,7 +25,6 @@
             "inbound": [
               "api-key-inbound",
               "rate-limit-inbound",
-              "metered-request",
               "set-headers-inbound"
             ]
           }
@@ -59,8 +58,7 @@
           "policies": {
             "inbound": [
               "api-key-inbound",
-              "rate-limit-inbound",
-              "metered-request"
+              "rate-limit-inbound"
             ]
           }
         },
@@ -88,22 +86,8 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "function_call": {
-                      "type": "string"
-                    },
-                    "name": {
-                      "type": "string"
-                    }
-                  },
-                  "example": {
-                    "function_call": "{\n  \"content\": \"Max Verstappen is a Dutch racing driver who currently competes in Formula 1\"\n, \"title\": \"Max Verstappen\"\n}",
-                    "name": "blogpost"
-                  }
-                }
+              "application/json; charset=utf-8": {
+                "schema": "$import(./schemas/blog)"
               }
             }
           }
