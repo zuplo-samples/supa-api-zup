@@ -1,17 +1,18 @@
 {
-  "name": "samples-todo-list",
+  "name": "supaweek-day-4",
   "version": "1.0.0",
   "author": "",
   "copyright": "",
   "scripts": {
-    "dev": "zup dev"
+    "dev": "zup dev",
+    "test": "zup test"
   },
   "dependencies": {
-    "zuplo": "latest"
+    "zuplo": "^1.20230828.2353"
   },
   "devDependencies": {
     "@supabase/supabase-js": "^2.33.1",
-    "ai": "^2.2.11",
+    "ai": "^2.2.8",
     "openai": "^4.1.0"
   }
 }
