@@ -70,7 +70,7 @@
             "inbound": [
               "api-key-inbound",
               "rate-limit-inbound",
-              "metered-request",
+              "metered-request"
             ]
           }
         },
