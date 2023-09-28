@@ -25,6 +25,7 @@
             "inbound": [
               "api-key-inbound",
               "rate-limit-inbound",
+              "metered-request",
               "set-headers-inbound"
             ]
           }
@@ -68,7 +69,8 @@
           "policies": {
             "inbound": [
               "api-key-inbound",
-              "rate-limit-inbound"
+              "rate-limit-inbound",
+              "metered-request",
             ]
           }
         },
